@@ -1,0 +1,19 @@
+[Unit]
+Description="Secura Vault - Nihal Maskey"
+Documentation="https://developer.hashicorp.com/vault/docs"
+ConditionFileNotEmpty="/etc/vault.d/vault.hcl"
+
+[Service]
+User=vault
+Group=vault
+SecureBits=keep-caps
+AmbientCapabilities=CAP_IPC_LOCK
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+NoNewPrivileges=yes
+ExecStart=/usr/bin/vault server -config=/etc/vault.d/vault.hcl
+ExecReload=/bin/kill --signal HUP
+KillMode=process
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
